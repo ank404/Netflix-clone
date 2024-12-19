@@ -3,12 +3,25 @@ pipeline {
 
     environment {
         DOCKER_IMAGE = "anupk40/netflix-app"
+        SONAR_SCANNER = "SonarQubeScanner"
     }
 
     stages {
         stage('Checkout Code') {
             steps {
                 checkout scm
+            }
+        }
+
+        stage('Code Quality Analysis') {
+            steps {
+                withSonarQubeEnv('SonarQube') {
+                    sh 'sonar-scanner \
+                        -Dsonar.projectKey=Netflix-App \
+                        -Dsonar.sources=. \
+                        -Dsonar.host.url=https://sonarqube.anupkhanal.info.np:9000 \
+                        -Dsonar.login='
+                }
             }
         }
 
